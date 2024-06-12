@@ -1,0 +1,23 @@
+//
+//  OSLogDestination.swift
+//  
+//
+//  Created by Tibor Felföldy on 2024-06-11.
+//
+
+import OSLog
+
+public struct OSLogDestination: LogDestination {
+    public func log(subsystem: String, category: String,
+             level: OSLogType, _ message: @escaping () -> String,
+             file: String, function: String, line: Int) {
+        let logger = os.Logger(subsystem: subsystem, category: category)
+        
+        guard let file = URL(string: file)?.lastPathComponent else {
+            logger.log(level: level, "\(message(), privacy: .public)")
+            return
+        }
+        
+        logger.log(level: level, "\("<\(file):\(line)> \(message())", privacy: .public)")
+    }
+}
