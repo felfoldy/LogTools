@@ -8,10 +8,14 @@
 import OSLog
 
 public struct OSLogDestination: LogDestination {
-    public func log(subsystem: String, category: String,
+    public func log(subsystem: String?, category: String?,
              level: OSLogType, _ message: @escaping () -> String,
              file: String, function: String, line: Int) {
-        let logger = os.Logger(subsystem: subsystem, category: category)
+        let logger = if let subsystem, let category {
+            os.Logger(subsystem: subsystem, category: category)
+        } else {
+            os.Logger()
+        }
         
         guard let file = URL(string: file)?.lastPathComponent else {
             logger.log(level: level, "\(message(), privacy: .public)")

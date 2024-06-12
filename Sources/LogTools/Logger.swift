@@ -13,12 +13,17 @@ public struct Logger {
         OSLogDestination()
     ]
     
-    private let subsystem: String
-    private let category: String
+    private let subsystem: String?
+    private let category: String?
     
     public init(subsystem: String, category: String) {
         self.subsystem = subsystem
         self.category = category
+    }
+    
+    public init() {
+        subsystem = nil
+        category = nil
     }
     
     public func log(level: LogLevel,
