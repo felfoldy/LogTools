@@ -21,28 +21,39 @@ public struct Logger {
         self.category = category
     }
     
-    public func log(level: OSLogType, _ message: @escaping @autoclosure () -> String,
-                    file: String = #file, function: String = #function, line: Int = #line) {
+    public func log(level: OSLogType,
+                    _ message: @escaping @autoclosure () -> String,
+                    file: String = #file,
+                    function: String = #function,
+                    line: Int = #line) {
         logToDestinations(level: level, message, file: file, function: function, line: line)
     }
     
     public func info(_ message: @escaping @autoclosure () -> String,
-                     file: String = #file, function: String = #function, line: Int = #line) {
+                     file: String = #file,
+                     function: String = #function,
+                     line: Int = #line) {
         logToDestinations(level: .info, message, file: file, function: function, line: line)
     }
     
     public func debug(_ message: @escaping @autoclosure () -> String,
-                      file: String = #file, function: String = #function, line: Int = #line) {
+                      file: String = #file,
+                      function: String = #function,
+                      line: Int = #line) {
         logToDestinations(level: .debug, message, file: file, function: function, line: line)
     }
     
     public func error(_ message: @escaping @autoclosure () -> String,
-                      file: String = #file, function: String = #function, line: Int = #line) {
+                      file: String = #file,
+                      function: String = #function,
+                      line: Int = #line) {
         logToDestinations(level: .error, message, file: file, function: function, line: line)
     }
     
     public func fault(_ message: @escaping @autoclosure () -> String,
-                      file: String = #file, function: String = #function, line: Int = #line) {
+                      file: String = #file,
+                      function: String = #function,
+                      line: Int = #line) {
         logToDestinations(level: .fault, message, file: file, function: function, line: line)
     }
     
@@ -56,5 +67,35 @@ public struct Logger {
                             level: level, message,
                             file: file, function: function, line: line)
         }
+    }
+}
+
+public extension Logger {
+    func warning(_ message: @escaping @autoclosure () -> String,
+                 file: String = #file,
+                 function: String = #function,
+                 line: Int = #line) {
+        logToDestinations(level: .error, message, file: file, function: function, line: line)
+    }
+    
+    func trace(_ message: @escaping @autoclosure () -> String,
+                 file: String = #file,
+                 function: String = #function,
+                 line: Int = #line) {
+        logToDestinations(level: .debug, message, file: file, function: function, line: line)
+    }
+    
+    func notice(_ message: @escaping @autoclosure () -> String,
+                 file: String = #file,
+                 function: String = #function,
+                 line: Int = #line) {
+        logToDestinations(level: .default, message, file: file, function: function, line: line)
+    }
+
+    func critical(_ message: @escaping @autoclosure () -> String,
+                 file: String = #file,
+                 function: String = #function,
+                 line: Int = #line) {
+        logToDestinations(level: .fault, message, file: file, function: function, line: line)
     }
 }
