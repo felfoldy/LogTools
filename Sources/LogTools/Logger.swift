@@ -21,7 +21,7 @@ public struct Logger {
         self.category = category
     }
     
-    public func log(level: OSLogType,
+    public func log(level: LogLevel,
                     _ message: @escaping @autoclosure () -> String,
                     file: String = #file,
                     function: String = #function,
