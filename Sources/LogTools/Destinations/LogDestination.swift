@@ -9,6 +9,6 @@ import OSLog
 
 public protocol LogDestination {
     func log(subsystem: String?, category: String?,
-             level: OSLogType, _ message: @escaping () -> String,
+             level: OSLogType, _ message: String,
              file: String, function: String, line: Int)
 }

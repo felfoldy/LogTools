@@ -8,7 +8,7 @@
 import Foundation
 import OSLog
 
-public struct Logger {
+public struct Logger: Sendable {
     public static var destinations: [LogDestination] = [
         OSLogDestination()
     ]
@@ -34,28 +34,28 @@ public struct Logger {
         logToDestinations(level: level, message, file: file, function: function, line: line)
     }
     
-    public func info(_ message: @escaping @autoclosure () -> String,
+    public func info(_ message: @autoclosure () -> String,
                      file: String = #file,
                      function: String = #function,
                      line: Int = #line) {
         logToDestinations(level: .info, message, file: file, function: function, line: line)
     }
     
-    public func debug(_ message: @escaping @autoclosure () -> String,
+    public func debug(_ message: @autoclosure () -> String,
                       file: String = #file,
                       function: String = #function,
                       line: Int = #line) {
         logToDestinations(level: .debug, message, file: file, function: function, line: line)
     }
     
-    public func error(_ message: @escaping @autoclosure () -> String,
+    public func error(_ message: @autoclosure () -> String,
                       file: String = #file,
                       function: String = #function,
                       line: Int = #line) {
         logToDestinations(level: .error, message, file: file, function: function, line: line)
     }
     
-    public func fault(_ message: @escaping @autoclosure () -> String,
+    public func fault(_ message: @autoclosure () -> String,
                       file: String = #file,
                       function: String = #function,
                       line: Int = #line) {
@@ -63,11 +63,18 @@ public struct Logger {
     }
     
     private func logToDestinations(level: OSLogType,
-                                   _ message: @escaping () -> String,
+                                   _ message: () -> String,
                                    file: String,
                                    function: String,
                                    line: Int) {
-        for destination in Logger.destinations {
+        let destinations = Logger.destinations
+        // TODO: Filter destinations.
+        
+        if destinations.isEmpty { return }
+        
+        let message = message()
+        
+        for destination in destinations {
             destination.log(subsystem: subsystem, category: category,
                             level: level, message,
                             file: file, function: function, line: line)
@@ -76,28 +83,28 @@ public struct Logger {
 }
 
 public extension Logger {
-    func warning(_ message: @escaping @autoclosure () -> String,
+    func warning(_ message: @autoclosure () -> String,
                  file: String = #file,
                  function: String = #function,
                  line: Int = #line) {
         logToDestinations(level: .error, message, file: file, function: function, line: line)
     }
     
-    func trace(_ message: @escaping @autoclosure () -> String,
+    func trace(_ message: @autoclosure () -> String,
                  file: String = #file,
                  function: String = #function,
                  line: Int = #line) {
         logToDestinations(level: .debug, message, file: file, function: function, line: line)
     }
     
-    func notice(_ message: @escaping @autoclosure () -> String,
+    func notice(_ message: @autoclosure () -> String,
                  file: String = #file,
                  function: String = #function,
                  line: Int = #line) {
         logToDestinations(level: .default, message, file: file, function: function, line: line)
     }
 
-    func critical(_ message: @escaping @autoclosure () -> String,
+    func critical(_ message: @autoclosure () -> String,
                  file: String = #file,
                  function: String = #function,
                  line: Int = #line) {
