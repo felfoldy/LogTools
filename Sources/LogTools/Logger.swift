@@ -9,10 +9,6 @@ import Foundation
 import OSLog
 
 public struct Logger: Sendable {
-    public static var destinations: [LogDestination] = [
-        OSLogDestination()
-    ]
-    
     private let subsystem: String?
     private let category: String?
     
@@ -68,7 +64,7 @@ public struct Logger: Sendable {
                                    function: String,
                                    line: Int) {
         let destinations = Logger.destinations
-            .filter { $0.minLevel >= level }
+            .filter { $0.canLog(level: level) }
         
         if destinations.isEmpty { return }
         
