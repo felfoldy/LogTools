@@ -27,7 +27,7 @@ public struct Logger: Sendable {
     }
     
     public func log(level: LogLevel,
-                    _ message: @escaping @autoclosure () -> String,
+                    _ message: @autoclosure () -> String,
                     file: String = #file,
                     function: String = #function,
                     line: Int = #line) {
@@ -62,13 +62,13 @@ public struct Logger: Sendable {
         logToDestinations(level: .fault, message, file: file, function: function, line: line)
     }
     
-    private func logToDestinations(level: OSLogType,
+    private func logToDestinations(level: LogLevel,
                                    _ message: () -> String,
                                    file: String,
                                    function: String,
                                    line: Int) {
         let destinations = Logger.destinations
-        // TODO: Filter destinations.
+            .filter { $0.minLevel >= level }
         
         if destinations.isEmpty { return }
         
