@@ -30,6 +30,7 @@ public struct Logger: Sendable {
         logToDestinations(level: level, message, file: file, function: function, line: line)
     }
     
+    /// Writes an informative message to the log.
     public func info(_ message: @autoclosure () -> String,
                      file: String = #file,
                      function: String = #function,
@@ -37,6 +38,7 @@ public struct Logger: Sendable {
         logToDestinations(level: .info, message, file: file, function: function, line: line)
     }
     
+    /// Writes a debug message to the log.
     public func debug(_ message: @autoclosure () -> String,
                       file: String = #file,
                       function: String = #function,
@@ -44,6 +46,7 @@ public struct Logger: Sendable {
         logToDestinations(level: .debug, message, file: file, function: function, line: line)
     }
     
+    /// Writes information about an error to the log.
     public func error(_ message: @autoclosure () -> String,
                       file: String = #file,
                       function: String = #function,
@@ -51,6 +54,7 @@ public struct Logger: Sendable {
         logToDestinations(level: .error, message, file: file, function: function, line: line)
     }
     
+    /// Writes a message to the log about a bug that occurs when your app executes.
     public func fault(_ message: @autoclosure () -> String,
                       file: String = #file,
                       function: String = #function,
