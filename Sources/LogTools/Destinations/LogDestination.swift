@@ -21,7 +21,7 @@ public extension LogDestination {
     var minLevel: LogLevel { .debug }
     
     func canLog(level: LogLevel) -> Bool {
-        minLevel < level
+        minLevel <= level
     }
 }
 
