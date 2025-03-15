@@ -15,13 +15,24 @@ public protocol LogDestination: Sendable {
     func log(subsystem: String?, category: String?,
              level: LogLevel, _ message: String,
              file: String, function: String, line: Int)
+
+    func log(subsystem: String?, category: String?,
+             level: LogLevel, _ message: Any,
+             file: String, function: String, line: Int)
 }
 
 public extension LogDestination {
-    var minLevel: LogLevel { .debug }
+    @inlinable var minLevel: LogLevel { .debug }
     
-    func canLog(level: LogLevel) -> Bool {
+    @inlinable func canLog(level: LogLevel) -> Bool {
         minLevel <= level
+    }
+    
+    @inlinable func log(subsystem: String?, category: String?,
+             level: LogLevel, _ message: Any,
+             file: String, function: String, line: Int) {
+        let message = "\(message)"
+        log(subsystem: subsystem, category: category, level: level, message, file: file, function: function, line: line)
     }
 }
 
