@@ -1,5 +1,8 @@
 # LogTools
 
+![Swift Version](https://img.shields.io/badge/Swift-6.0-orange.svg)
+![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20macOS%20%7C%20visionOS-blue.svg)
+
 LogTools is a Swift logging library designed to enhance the existing OSLog system.
 It allows you to easily integrate custom log destinations such as file streaming, network logging, or built-in console logging without rewriting your entire logging system.
 Simply update your imports and enjoy extended logging capabilities.
